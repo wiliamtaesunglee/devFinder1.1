@@ -12,7 +12,7 @@ export default function App() {
     const ref = React.useRef();
 
     const { getInitialState } = useLinking(ref, {
-        prefixes: ['http://localhost:8081', 'devfinder://'],
+        prefixes: ['http://devfinder', 'devfinder://'],
         config: {
             DevList: 'devlist',
         },
