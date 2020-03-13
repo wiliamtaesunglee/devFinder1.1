@@ -1,23 +1,30 @@
 import React from 'react';
 import { View, Text, Button, Linking } from 'react-native';
+import { authorize } from 'react-native-app-auth';
 
-const fetchGit = async () => {
-    await fetch('http://github.com/login/oauth/authorize', { client_id: '4fe64420755fe63ff364' })
-        .then(resp => {
-            Linking.openURL(resp.url).catch((err) => console.error('An error occurred', err));
-        })
-        .then(resp => console.log(resp.json()))
-}
+import config from '../../config';
 
-const LoginScreen = ({ navigation }) => {
-  return (
-    <View>
-      <Text>Clicke no Botão para logar no seu Github</Text>
-      <Button
-        title='Login'
-        onPress={() => fetchGit()} />
-    </View>
-  );
+class LoginScreen extends React.Component  {
+    async _authorize () {
+        try {
+            // Make request to Google to get token
+            const authState = await authorize(config);
+
+            console.log({ authState })
+        } catch (error) {
+            console.log('error', error)
+        }
+    }
+    render() {
+        return (
+            <View>
+                <Text>Clicke no Botão para logar no seu Github</Text>
+                <Button
+                    title='Login'
+                    onPress={this._authorize}/>
+            </View>
+        );
+    }
 };
 
 export default LoginScreen;
