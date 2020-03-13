@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const DevListScreen = ({ navigation }) => {
+const DevListScreen = ({ data }) => {
+    console.log(data);
   return (
     <View>
       <Text>
