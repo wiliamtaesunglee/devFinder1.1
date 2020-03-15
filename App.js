@@ -12,7 +12,7 @@ export default function App() {
     const ref = React.useRef();
 
     const { getInitialState } = useLinking(ref, {
-        prefixes: ['http://devfinder', 'devfinder://'],
+        prefixes: ['com.devfinderfetchapi://'],
         config: {
             DevList: 'devlist',
         },
@@ -25,8 +25,6 @@ export default function App() {
         Promise.race([
             getInitialState(),
             new Promise(resolve =>
-                // Timeout in 150ms if `getInitialState` doesn't resolve
-                // Workaround for https://github.com/facebook/react-native/issues/25675
                 setTimeout(resolve, 150)
             ),
         ])

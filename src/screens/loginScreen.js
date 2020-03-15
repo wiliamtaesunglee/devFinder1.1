@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
-import { View, Text, Button, Linking } from 'react-native';
+import React, { useState, useCallback, useMemo } from 'react';
+import { View, Text, Button, Linking, Form } from 'react-native';
 import { authorize } from 'react-native-app-auth';
 
 import config from '../../config';
 
 const LoginScreen = () =>  {
-    const [data, setData] = useState({});
-    const _authorize = async  () => {
+    const [token, setToken] = useState({});
+    const [userData, setUserData] = useState({});
+
+    const _authorize = async () => {
         try {
-            // Make request to Google to get token
-            const authState = await authorize(config);
+            const response = await authorize(config);
+
+            setToken(response.accessToken);
+
+            console.log('primeiro acesso', token)
+
+            fetch(`https://api.github.com/user`, {
+              method: "GET",
+              headers: {
+                "Authorization": `token ${token}`
+              }
+            })
+            .then(r => setUserData(r._bodyText))
+
+            console.log(userData)
 
         } catch (error) {
-            console.log('error', error)
+            console.log('retorno do erro: ', error);
         }
     }
 
@@ -22,11 +37,9 @@ const LoginScreen = () =>  {
                 <Button
                     title='Login'
                     onPress={() => _authorize()}
-                    data={data}
                 />
             </View>
         );
-
 };
 
 export default LoginScreen;

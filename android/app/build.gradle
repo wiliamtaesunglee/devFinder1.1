@@ -137,7 +137,7 @@ android {
                     abiFilters "armeabi-v7a", "x86"
                 }
                 manifestPlaceholders = [
-                        appAuthRedirectScheme: "io.identityserver.demo"
+                        appAuthRedirectScheme: "com.devfinderfetchapi"
                 ]
     }
     splits {
