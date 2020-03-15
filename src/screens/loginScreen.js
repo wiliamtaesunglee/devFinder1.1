@@ -7,6 +7,7 @@ import config from '../../config';
 const LoginScreen = () =>  {
     const [token, setToken] = useState({});
     const [userData, setUserData] = useState({});
+    const [users, setUsers] = useState({});
 
     const _authorize = async () => {
         try {
@@ -16,7 +17,7 @@ const LoginScreen = () =>  {
 
             console.log('primeiro acesso', token)
 
-            fetch(`https://api.github.com/user`, {
+            await fetch(`https://api.github.com/user`, {
               method: "GET",
               headers: {
                 "Authorization": `token ${token}`
@@ -24,7 +25,10 @@ const LoginScreen = () =>  {
             })
             .then(r => setUserData(r._bodyText))
 
-            console.log(userData)
+            fetch(`https://api.github.com/search/users?q=location:${userData.location}`)
+            .then(r => setUsers(r._bodyText))
+
+            console.log('users by location', users);
 
         } catch (error) {
             console.log('retorno do erro: ', error);
